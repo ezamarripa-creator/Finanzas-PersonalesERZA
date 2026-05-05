@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+<head>
     <script>
     (function() {
         document.addEventListener('contextmenu', function(e) {
@@ -35,16 +36,53 @@
     })();
     </script>
 
-   
-   <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#0f1117">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>FinanzApp — Tu Mentor Financiero</title>
+<title> FinanzApp — Nube Firebase </title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+<script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzfefzuSNNSM2XjgpnmhplsgOFAso03ng" /* Sustituye con tu API Key completa de la captura */,
+            authDomain: "finanzaserza.firebaseapp.com",
+            databaseURL: "https://finanzas-personales-v3-default-rtdb.firebaseio.com",
+            projectId: "finanzaserza",
+            storageBucket: "finanzaserza.firebasestorage.app",
+            messagingSenderId: "934105109809",
+            appId: "1:934105109809:web:c2944af9b7818b7068cc10" /* Sustituye con tu App ID completo de la captura */
+           measurementId: "G-ZSJ83RM7T4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const dbRef = ref(db, 'finanzas_data');
+
+        // Función que reemplaza el guardado local por el de la nube
+        window.saveData = function(data) {
+            set(dbRef, data).then(() => {
+                console.log("Sincronizado con Firebase ✅");
+            }).catch(err => console.error("Error al sincronizar:", err));
+        };
+
+        // Escuchar datos en tiempo real (Sincronización multi-dispositivo)
+        onValue(dbRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                window.DATA = data;
+                // Si la app ya cargó, refrescamos la vista actual
+                if (typeof renderPage === 'function') renderPage(STATE.currentPage);
+            }
+        });
+    </script>
+
 <style>
 /* ============================================================
    VARIABLES Y RESET
@@ -998,6 +1036,23 @@ nav.bottom-nav{
       </div>
       <div id="hist-mov-list" class="item-list"></div>
     </div>
+
+    <!-- Tarjeta de respaldo -->
+    <div class="card" style="margin-top:8px;">
+      <div class="card-title">💾 Respaldo de datos</div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:14px;line-height:1.5;">
+        Exporta todos tus datos a un archivo JSON para respaldo. Puedes importarlo después para restaurar todo sin perder nada.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button class="btn btn-primary" onclick="exportarDatos()">⬇️ Exportar respaldo</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">⬆️ Importar respaldo</button>
+        <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importarDatos(event)">
+        <button class="btn btn-danger" onclick="borrarTodosDatos()" style="font-size:.8rem;padding:9px;">🗑 Borrar todos los datos</button>
+      </div>
+      <div style="margin-top:12px;background:var(--bg3);border-radius:10px;padding:10px 12px;font-size:.72rem;color:var(--text3);line-height:1.6;">
+        ⚠️ <strong style="color:var(--text2);">Importante:</strong> los datos solo existen en este navegador. Haz respaldo antes de limpiar caché o cambiar de dispositivo.
+      </div>
+    </div>
   </div>
 
   <!-- ==================== BARRA DE NAVEGACIÓN ==================== -->
@@ -1301,17 +1356,24 @@ function defaultData() {
 }
 
 // ── Cargar / Guardar ───────────────────────────────────────
+// Variable global para controlar si Firebase ya nos dio los primeros datos
+let firebaseInitialized = false;
+
 function loadData() {
-  try {
-    const raw = localStorage.getItem(DB_KEY);
-    if (!raw) return seedData();
-    const d = JSON.parse(raw);
-    // Asegurar todas las claves
-    return Object.assign(defaultData(), d);
-  } catch(e) { return seedData(); }
+  // Con Firebase, ya no "cargamos" manualmente al inicio de esta forma,
+  // sino que escuchamos los cambios en tiempo real con onValue (paso siguiente).
+  // Por ahora, devolvemos los datos por defecto mientras llegan los de la nube.
+  return window.DATA || defaultData();
 }
 
 function saveData(d) {
+  // 1. Guardamos en la nube (Firebase)
+  if (window.dbRef) {
+    // Usamos 'set' de Firebase importado en el bloque anterior
+    window.saveFirebaseData(d); 
+  }
+  
+  // 2. Mantenemos una copia en localStorage por si no hay internet (Opcional)
   localStorage.setItem(DB_KEY, JSON.stringify(d));
 }
 
@@ -2134,10 +2196,12 @@ function renderHistResumen() {
     const c=calcMes(m.key);
     const score=calcScore(m.key);
     const color=score>=70?'green':score>=40?'yellow':'red';
+    const [my,mm]=m.key.split('-');
+    const mDate=new Date(+my,+mm-1,1);
     return `
     <div class="card" style="margin-bottom:10px;">
       <div class="card-row" style="margin-bottom:8px;">
-        <div style="font-family:var(--font-head);font-weight:700;">${monthLabel(new Date(m.key+'-01'))}</div>
+        <div style="font-family:var(--font-head);font-weight:700;">${monthLabel(mDate)}</div>
         <span class="badge badge-${color}">Score ${score}%</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:.8rem;">
@@ -2221,6 +2285,57 @@ function clearForm(ids) {
     const el=document.getElementById(id);
     if(el) el.value='';
   });
+}
+
+// ── EXPORTAR / IMPORTAR / BORRAR ───────────────────────────
+function exportarDatos() {
+  const json     = JSON.stringify(DATA, null, 2);
+  const blob     = new Blob([json], {type: 'application/json'});
+  const url      = URL.createObjectURL(blob);
+  const fecha    = new Date().toISOString().slice(0,10);
+  const a        = document.createElement('a');
+  a.href         = url;
+  a.download     = `finanzapp-respaldo-${fecha}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('⬇️ Respaldo exportado correctamente');
+}
+
+function importarDatos(event) {
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      // Validar que tenga al menos una clave esperada
+      if(!parsed.ingresos && !parsed.pagos && !parsed.metas) {
+        return toast('❌ Archivo inválido. No parece un respaldo de FinanzApp.', 'error');
+      }
+      if(!confirm('¿Reemplazar todos los datos actuales con este respaldo? Esta acción no se puede deshacer.')) {
+        event.target.value = '';
+        return;
+      }
+      DATA = Object.assign(defaultData(), parsed);
+      saveData(DATA);
+      event.target.value = '';
+      toast('✅ Datos importados correctamente');
+      renderPage(STATE.currentPage);
+    } catch(err) {
+      toast('❌ Error al leer el archivo JSON', 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function borrarTodosDatos() {
+  if(!confirm('⚠️ ¿Borrar TODOS los datos? Esta acción es permanente e irreversible.')) return;
+  if(!confirm('Última confirmación: ¿seguro que deseas eliminar todo el historial?')) return;
+  localStorage.removeItem(DB_KEY);
+  DATA = defaultData();
+  saveData(DATA);
+  toast('🗑 Todos los datos han sido eliminados');
+  renderPage(STATE.currentPage);
 }
 
 // ── INICIALIZACIÓN ─────────────────────────────────────────
