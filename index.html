@@ -1,88 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <script>
-    (function() {
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            return false;
-        });
-      
-       document.addEventListener('keydown', function(e) {
-            const key = e.key.toLowerCase();
-            if ((e.ctrlKey && (key === 'u' || key === 's' || key === 'c' || key === 'i' || key === 'j')) ||
-                (e.ctrlKey && e.shiftKey && (key === 'i' || key === 'j' || key === 'c')) ||
-                e.key === 'F12') {
-                e.preventDefault();
-                return false;
-            }
-        });
-        
-        let devtoolsTriggered = false;
-        setInterval(function() {
-            if (devtoolsTriggered) return;
-            const before = new Date();
-            debugger; 
-            const after = new Date();
-            if (after - before > 100) { 
-                devtoolsTriggered = true;
-                document.body.innerHTML = '<div style="text-align:center; padding:50px; font-family:sans-serif;"><h1 style="color:#042C53;">⚠️ Acceso no autorizado</h1><p>El uso de herramientas de desarrollo no está permitido en este recurso institucional.</p><p style="font-size:14px; margin-top:30px;">🔒 COBAED · Dirección Académica</p></div>';
-            }
-        }, 2000);
-        
-        const style = document.createElement('style');
-        style.textContent = `body { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }`;
-        document.head.appendChild(style);
-    })();
-    </script>
-
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#0f1117">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title> FinanzApp — Nube Firebase </title>
+<title>FinanzApp — Tu Mentor Financiero</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-
-<script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAzfefzuSNNSM2XjgpnmhplsgOFAso03ng" /* Sustituye con tu API Key completa de la captura */,
-            authDomain: "finanzaserza.firebaseapp.com",
-            databaseURL: "https://finanzas-personales-v3-default-rtdb.firebaseio.com",
-            projectId: "finanzaserza",
-            storageBucket: "finanzaserza.firebasestorage.app",
-            messagingSenderId: "934105109809",
-            appId: "1:934105109809:web:c2944af9b7818b7068cc10" /* Sustituye con tu App ID completo de la captura */
-           measurementId: "G-ZSJ83RM7T4"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const dbRef = ref(db, 'finanzas_data');
-
-        // Función que reemplaza el guardado local por el de la nube
-        window.saveData = function(data) {
-            set(dbRef, data).then(() => {
-                console.log("Sincronizado con Firebase ✅");
-            }).catch(err => console.error("Error al sincronizar:", err));
-        };
-
-        // Escuchar datos en tiempo real (Sincronización multi-dispositivo)
-        onValue(dbRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                window.DATA = data;
-                // Si la app ya cargó, refrescamos la vista actual
-                if (typeof renderPage === 'function') renderPage(STATE.currentPage);
-            }
-        });
-    </script>
-
 <style>
 /* ============================================================
    VARIABLES Y RESET
@@ -1356,24 +1282,17 @@ function defaultData() {
 }
 
 // ── Cargar / Guardar ───────────────────────────────────────
-// Variable global para controlar si Firebase ya nos dio los primeros datos
-let firebaseInitialized = false;
-
 function loadData() {
-  // Con Firebase, ya no "cargamos" manualmente al inicio de esta forma,
-  // sino que escuchamos los cambios en tiempo real con onValue (paso siguiente).
-  // Por ahora, devolvemos los datos por defecto mientras llegan los de la nube.
-  return window.DATA || defaultData();
+  try {
+    const raw = localStorage.getItem(DB_KEY);
+    if (!raw) return seedData();
+    const d = JSON.parse(raw);
+    // Asegurar todas las claves
+    return Object.assign(defaultData(), d);
+  } catch(e) { return seedData(); }
 }
 
 function saveData(d) {
-  // 1. Guardamos en la nube (Firebase)
-  if (window.dbRef) {
-    // Usamos 'set' de Firebase importado en el bloque anterior
-    window.saveFirebaseData(d); 
-  }
-  
-  // 2. Mantenemos una copia en localStorage por si no hay internet (Opcional)
   localStorage.setItem(DB_KEY, JSON.stringify(d));
 }
 
