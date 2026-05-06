@@ -1,0 +1,297 @@
+{
+  "ingresos": [
+    {
+      "id": "mosy1jx4t4cc",
+      "monto": 11000,
+      "fuente": "Nomina COBAED",
+      "fecha": "2026-04-15",
+      "notas": ""
+    },
+    {
+      "id": "mosy24xe41rc",
+      "monto": 11000,
+      "fuente": "NOMINA COBAED",
+      "fecha": "2026-04-30",
+      "notas": ""
+    },
+    {
+      "id": "mosy2o3axixc",
+      "monto": 4050,
+      "fuente": "NOMINA UJED",
+      "fecha": "2026-04-15",
+      "notas": ""
+    },
+    {
+      "id": "mosy32ujyqpj",
+      "monto": 4050,
+      "fuente": "NOMINA UJED",
+      "fecha": "2026-04-30",
+      "notas": ""
+    }
+  ],
+  "gastosFijos": [
+    {
+      "id": "mosy5u8pxfdj",
+      "nombre": "CREDITO HIPOTECARIO",
+      "monto": 6000,
+      "dia": 30,
+      "cat": "vivienda"
+    }
+  ],
+  "gastosVariables": [
+    {
+      "id": "moorjc4as9k6",
+      "cat": "alimentacion",
+      "desc": "Supermercado",
+      "monto": 1800,
+      "fecha": "2026-05-03"
+    },
+    {
+      "id": "moorjc4a1l0c",
+      "cat": "entretenimiento",
+      "desc": "Streaming+cine",
+      "monto": 450,
+      "fecha": "2026-05-07"
+    },
+    {
+      "id": "moorjc4aykts",
+      "cat": "transporte",
+      "desc": "Gasolina",
+      "monto": 900,
+      "fecha": "2026-05-09"
+    },
+    {
+      "id": "moorjc4au444",
+      "cat": "alimentacion",
+      "desc": "Restaurantes",
+      "monto": 1200,
+      "fecha": "2026-05-12"
+    },
+    {
+      "id": "moorjc4atn8j",
+      "cat": "ropa",
+      "desc": "Zapatos",
+      "monto": 800,
+      "fecha": "2026-05-18"
+    },
+    {
+      "id": "mosyax93xcaz",
+      "cat": "entretenimiento",
+      "desc": "CINE EL DIBLO VISTE A LA MODA",
+      "monto": 700,
+      "fecha": "2026-04-30"
+    }
+  ],
+  "pagos": [
+    {
+      "id": "mosyflcqayh3",
+      "nombre": "HSBC VIVA 0014",
+      "total": 9328,
+      "minimo": 1875,
+      "sinInteres": 2175.81,
+      "fechaLimite": "2026-05-02",
+      "estado": "atrasado",
+      "fechaPago": "",
+      "mes": "2026-05"
+    },
+    {
+      "id": "mosyjc2z28av",
+      "nombre": "HSBC AIR 6254",
+      "total": 60607,
+      "minimo": 1875,
+      "sinInteres": 2408.02,
+      "fechaLimite": "2026-05-02",
+      "estado": "atrasado",
+      "fechaPago": "",
+      "mes": "2026-05"
+    },
+    {
+      "id": "mosyle0rtat5",
+      "nombre": "HSBC AIR 3713",
+      "total": 142793,
+      "minimo": 3291.07,
+      "sinInteres": 5032.1,
+      "fechaLimite": "2026-04-29",
+      "estado": "atrasado",
+      "fechaPago": "",
+      "mes": "2026-05"
+    },
+    {
+      "id": "mosyp5s7dwwm",
+      "nombre": "BANORTE IXE PLATINUM 4798",
+      "total": 35759.12,
+      "minimo": 5475,
+      "sinInteres": 19376.32,
+      "fechaLimite": "2026-04-30",
+      "estado": "atrasado",
+      "fechaPago": "",
+      "mes": "2026-05"
+    },
+    {
+      "id": "mosyrig0j3s0",
+      "nombre": "BANORTE IXE PLATINUM 1598",
+      "total": 7041.16,
+      "minimo": 4375,
+      "sinInteres": 4710.05,
+      "fechaLimite": "2026-05-04",
+      "estado": "atrasado",
+      "fechaPago": "",
+      "mes": "2026-05"
+    },
+    {
+      "id": "mosyv5y7y9wo",
+      "nombre": "LIVERPOOL ROSA  5803",
+      "total": 66494.17,
+      "minimo": 2821.32,
+      "sinInteres": 66410.97,
+      "fechaLimite": "2026-05-21",
+      "estado": "pendiente",
+      "fechaPago": "",
+      "mes": "2026-05"
+    },
+    {
+      "id": "mosyxn3joslh",
+      "nombre": "LIVERPOOL PREMIUM 9944",
+      "total": 54564.15,
+      "minimo": 1880.32,
+      "sinInteres": 34447.23,
+      "fechaLimite": "2026-05-02",
+      "estado": "atrasado",
+      "fechaPago": "",
+      "mes": "2026-05"
+    },
+    {
+      "id": "mosz13rh66h9",
+      "nombre": "PRESTAMO CAJA HIPODROMO",
+      "total": 88377.84,
+      "minimo": 3259.85,
+      "sinInteres": 3259.85,
+      "fechaLimite": "2026-05-02",
+      "estado": "atrasado",
+      "fechaPago": "",
+      "mes": "2026-05"
+    },
+    {
+      "id": "mosz3mymwnzp",
+      "nombre": "HSBC VIVA 0014",
+      "total": 9328,
+      "minimo": 1875,
+      "sinInteres": 2175.81,
+      "fechaLimite": "2026-05-02",
+      "estado": "pagado",
+      "fechaPago": "2026-05-05",
+      "mes": "2026-04"
+    },
+    {
+      "id": "mosz49qroo4o",
+      "nombre": "HSBC AIR 6254",
+      "total": 60607,
+      "minimo": 1875,
+      "sinInteres": 2408.02,
+      "fechaLimite": "2026-05-02",
+      "estado": "pagado",
+      "fechaPago": "2026-05-05",
+      "mes": "2026-04"
+    },
+    {
+      "id": "mosz4lgd79yf",
+      "nombre": "HSBC AIR 3713",
+      "total": 142793,
+      "minimo": 3291.07,
+      "sinInteres": 5032.1,
+      "fechaLimite": "2026-04-29",
+      "estado": "pagado",
+      "fechaPago": "2026-05-05",
+      "mes": "2026-04"
+    },
+    {
+      "id": "mosz4uo3elsa",
+      "nombre": "BANORTE IXE PLATINUM 4798",
+      "total": 35759.12,
+      "minimo": 5475,
+      "sinInteres": 19376.32,
+      "fechaLimite": "2026-04-30",
+      "estado": "pagado",
+      "fechaPago": "2026-05-05",
+      "mes": "2026-04"
+    },
+    {
+      "id": "mosz5oqtogl1",
+      "nombre": "BANORTE IXE PLATINUM 1598",
+      "total": 7041.16,
+      "minimo": 4375,
+      "sinInteres": 4710.05,
+      "fechaLimite": "2026-05-04",
+      "estado": "pagado",
+      "fechaPago": "2026-05-05",
+      "mes": "2026-04"
+    },
+    {
+      "id": "mosz5y2g8y76",
+      "nombre": "LIVERPOOL PREMIUM 9944",
+      "total": 54564.15,
+      "minimo": 1880.32,
+      "sinInteres": 34447.23,
+      "fechaLimite": "2026-05-02",
+      "estado": "pagado",
+      "fechaPago": "2026-05-05",
+      "mes": "2026-04"
+    },
+    {
+      "id": "mosz674qcjye",
+      "nombre": "PRESTAMO CAJA HIPODROMO",
+      "total": 88377.84,
+      "minimo": 3259.85,
+      "sinInteres": 3259.85,
+      "fechaLimite": "2026-05-02",
+      "estado": "pagado",
+      "fechaPago": "2026-05-05",
+      "mes": "2026-04"
+    },
+    {
+      "id": "mosz6g0jqz2o",
+      "nombre": "LIVERPOOL ROSA  5803",
+      "total": 66494.17,
+      "minimo": 2821.32,
+      "sinInteres": 66410.97,
+      "fechaLimite": "2026-05-21",
+      "estado": "pagado",
+      "fechaPago": "2026-05-05",
+      "mes": "2026-04"
+    }
+  ],
+  "metas": [
+    {
+      "id": "moorjc4aw35n",
+      "nombre": "Fondo de emergencia",
+      "emoji": "🛡",
+      "meta": 30000,
+      "aportaciones": [
+        {
+          "monto": 5000,
+          "fecha": "2026-03-01"
+        },
+        {
+          "monto": 3000,
+          "fecha": "2026-04-01"
+        }
+      ]
+    },
+    {
+      "id": "moorjc4aif1i",
+      "nombre": "Vacaciones Cancún",
+      "emoji": "🏖",
+      "meta": 15000,
+      "aportaciones": [
+        {
+          "monto": 2000,
+          "fecha": "2026-04-15"
+        },
+        {
+          "monto": 1500,
+          "fecha": "2026-05-05"
+        }
+      ]
+    }
+  ]
+}
